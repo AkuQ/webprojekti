@@ -1,13 +1,5 @@
 
-var calendar_notes = {
-    "2018-12-18": {
-        0: {id: 0, title: 'test', description: 'test', date: '2018-12-18'},
-        1: {id: 1, title: 'test', description: 'test', date: '2018-12-18'},
-        2: {id: 2, title: 'test', description: 'test------------------|', date: '2018-12-18'},
-        3: {id: 3, title: 'test....asdsadsadasdasdsad', description: 'test', date: '2018-12-18'},
-        4: {id: 4, title: 'test', description: 'test', date: '2018-12-18'},
-    }
-};
+var calendar_notes = {};
 
 
 /**
@@ -15,32 +7,41 @@ var calendar_notes = {
  * @param {Element} calendar
  */
 function showMonth(date, calendar) {
-    calendar.innerHTML = '';
+    get_notes(date, function (result) {
+        console.log(result);
+        result.forEach(function (note) {
+            note.id = parseInt(note.id);
+            if(!calendar_notes[note.date])
+                calendar_notes[note.date] = {};
+            calendar_notes[note.date][note.id] = note;
+        });
+        calendar.innerHTML = '';
 
-    var date_it = new Date(date.getTime());
-    date_it.setDate(0);
-    date_it.setDate(date_it.getDate() - date_it.getDay() + 1);
+        var date_it = new Date(date.getTime());
+        date_it.setDate(0);
+        date_it.setDate(date_it.getDate() - date_it.getDay() + 1);
 
-    var displayed_months = {};
-    displayed_months[date.getMonth()] = true;
-    displayed_months[date_it.getMonth()] = true;
+        var displayed_months = {};
+        displayed_months[date.getMonth()] = true;
+        displayed_months[date_it.getMonth()] = true;
 
-    var table = document.createElement("table");
+        var table = document.createElement("table");
 
-    while(date_it.getMonth() in displayed_months) {
-        var row = document.createElement("tr");
+        while(date_it.getMonth() in displayed_months) {
+            var row = document.createElement("tr");
 
-        for(var i = 0; i < 7; i++) {
-            row.appendChild(genDateCellHTML(date_it));
-            date_it.setDate(date_it.getDate() + 1);
+            for(var i = 0; i < 7; i++) {
+                row.appendChild(genDateCellHTML(date_it));
+                date_it.setDate(date_it.getDate() + 1);
+            }
+            table.appendChild(row);
         }
-        table.appendChild(row);
-    }
-    calendar.appendChild(table);
+        calendar.appendChild(table);
 
-    setCalendarListeners(table, date.getMonth());
-    document.querySelector("#note").style.visibility = "hidden";
-    document.querySelector("#right").style.visibility = "hidden";
+        setCalendarListeners(table, date.getMonth());
+        document.querySelector("#note").style.visibility = "hidden";
+        document.querySelector("#right").style.visibility = "hidden";
+    });
 }
 
 /**
@@ -124,10 +125,14 @@ function showNotesList(iso_date) {
 
             var delete_button = document.createElement("button");
             delete_button.innerHTML = "Delete";
-            delete_button.onclick = function () {
-                delete calendar_notes[iso_date][note.id];
-                refreshDateCellHTML(document.getElementById(iso_date));
-                showNotesList(iso_date);
+            delete_button.onclick = function() {
+                delete_notes(note, function (result) {
+                    if(parseInt(result) === 1) {
+                        delete calendar_notes[iso_date][note.id];
+                        refreshDateCellHTML(document.getElementById(iso_date));
+                        showNotesList(iso_date);
+                    }
+                })
             };
             note_item.appendChild(delete_button);
         }
@@ -151,7 +156,7 @@ function showNote(note) {
     description.value = note.description;
 
     save.onclick = function() {
-        note.title = title.value;
+        note.title = title.value || "Untitled";
         note.description = description.value;
         saveNote(note);
     };
@@ -160,18 +165,15 @@ function showNote(note) {
 }
 
 //temp
-var id_counter = 100;
-
 function saveNote(note) {
-    if (note.id) {
-        // calendar_notes[note.date][calendar_notes[note.date].length || 1] = note;
-    }
-    else {
-        if(!calendar_notes[note.date])
-            calendar_notes[note.date] = {};
-        note.id = id_counter++;
-        calendar_notes[note.date][note.id] = note;
-    }
-    showNotesList(note.date);
-    refreshDateCellHTML(document.getElementById(note.date));
+    put_notes(note, function (id) {
+        if(!note.id) {
+            note.id = parseInt(id);
+            if(!calendar_notes[note.date])
+                calendar_notes[note.date] = {};
+            calendar_notes[note.date][note.id] = note;
+        }
+        showNotesList(note.date);
+        refreshDateCellHTML(document.getElementById(note.date));
+    });
 }
