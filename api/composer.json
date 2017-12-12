@@ -1,0 +1,9 @@
+{
+  "require": {
+    "silex/silex": "~2.0",
+    "doctrine/dbal":"~2.2"
+  },
+  "autoload": {
+    "files": ["./src/autoload.php", "./vendor/autoload.php"]
+  }
+}
