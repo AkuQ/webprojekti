@@ -20,7 +20,6 @@ $app->before(function (Request $request) {
             throw new Exception("Bad JSON");
         }
     }
-
     $params += $request->query->all();
     $request->request->replace($params);
 });
@@ -56,9 +55,9 @@ $app->get('/notes', function (Request $request) use ($app) {
             [$params['id']]
         );
     }
-    elseif(allset($params, 'start', 'end')) {
+    elseif(allset($params, 'start', 'end')) {;
         $result = $app['db']->fetchAll(
-            "SELECT * FROM calendar_notes WHERE date BETWEEN ? AND ?",
+            "SELECT * FROM calendar_notes WHERE `date` BETWEEN ? AND ?",
             select($params, 'start', 'end')
         );
     }
@@ -101,16 +100,20 @@ $app->delete('/notes', function (Request $request) use ($app) {
 //HELPERS:
 
 function allset(array $arr, ...$keys){
-    while($next = next($keys)) {
+    $next = reset($keys);
+    while($next) {
         if(!isset($arr[$next])) return false;
+        $next = next($keys);
     }
     return true;
 }
 
 function select(array $arr, ...$keys){
     $ret = [];
-    while($next = next($keys)) {
-        if(isset($arr[$next])) $ret[$next] = $arr[$next];
+    $next = reset($keys);
+    while($next) {
+        if(isset($arr[$next])) $ret[] = $arr[$next];
+        $next = next($keys);
     }
     return $ret;
 }
