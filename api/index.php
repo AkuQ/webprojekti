@@ -4,8 +4,7 @@ use Silex\Provider\DoctrineServiceProvider;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-require_once __DIR__.'/vendor/autoload.php';
-//require_once __DIR__.'/src/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 
 $app = new Silex\Application();
@@ -43,6 +42,10 @@ $app->register(new DoctrineServiceProvider(), [
 # ROUTES:
 
 /** @var Doctrine\DBAL\Connection[] $app */
+
+$app->get('/', function () {
+    return 'CalendarDemo API';
+});
 
 $app->get('/notes', function (Request $request) use ($app) {
     $params = $request->request->all();

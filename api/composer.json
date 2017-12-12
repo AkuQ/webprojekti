@@ -4,6 +4,6 @@
     "doctrine/dbal":"~2.2"
   },
   "autoload": {
-    "files": ["./src/autoload.php", "./vendor/autoload.php"]
+    "files": ["./vendor/autoload.php"]
   }
 }
