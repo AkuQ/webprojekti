@@ -20,6 +20,7 @@ $app->before(function (Request $request) {
             throw new Exception("Bad JSON");
         }
     }
+
     $params += $request->query->all();
     $request->request->replace($params);
 });
@@ -29,11 +30,11 @@ $app->before(function (Request $request) {
 $app->register(new DoctrineServiceProvider(), [
     'db.options' => [
         'driver' => 'pdo_mysql',
-        'db' => 'CalendarDemo',
+        'dbname' => 'CalendarDemo',
         'host' => 'localhost',
         'user' => 'CalendarDemo',
         'password' => 'password1',
-        'charset' => 'utf-8',
+        'charset' => 'utf8',
         'port' => 3306,
     ],
 ]);
@@ -73,13 +74,18 @@ $app->put('/notes', function (Request $request) use ($app) {
     if(allset($params, 'date', 'title', 'description')) {
         if(isset($params['id'])) {
             $count = $app['db']->update("calendar_notes", $params, ['id' => $params['id']]);
+            $id = $params['id'];
         }
         else {
             $count = $app['db']->insert("calendar_notes", $params);
+            $id = $app['db']->lastInsertId();
+        }
+        if ($count !== 1) {
+            new Exception("DB insert/update error, 1 row should be affected, got $count");
         }
     }
-    else $count = 0;
-    return new JsonResponse($count);
+    else $id = 0;
+    return new JsonResponse($id);
 });
 
 $app->delete('/notes', function (Request $request) use ($app) {
