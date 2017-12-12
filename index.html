@@ -15,17 +15,86 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
+    <script src="js/main.js"></script>
         <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+    <div id="main"></div>
+    <div id="left">
+        <div id="month_selector">
+            <h1>Calendar Demo</h1>
+            <label for="year">Year</label><input id="year" type="number"/>
+            <label for="month">Month</label><select id="month" type="checkbox">
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6">July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+            </select>
+            <button id="prev_month" value="-1"> < </button>
+            <button id="next_month" value="1"> > </button>
+        </div>
+        <div id="calendar"></div>
+    </div>
+    <hr width="1">
+    <div id="right" style="visibility: hidden">
+        <h1></h1>
+        <ul id="notes_list">
+            <li>hello</li>
+        </ul>
+        <button id="note_new">New</button>
+        <form id="note" style="visibility: hidden">
+            <fieldset><legend>Title</legend>
+                <label for="note_title"></label><input type="text" id="note_title"/>
+            </fieldset>
+            <fieldset><legend>Description</legend>
+                <label for="note_description"></label><textarea id="note_description"></textarea>
+            </fieldset>
+            <button id="note_save">Save</button>
+        </form>
+    </div>
+    <script>
+        now = new Date();
+        year = document.getElementById("year");
+        month = document.getElementById("month");
+        calendar = document.getElementById("calendar");
+
+        function refreshDate() {
+            year.value = now.getFullYear();
+            month.value = now.getMonth();
+        }
+        refreshDate();
+
+        document.querySelectorAll("#month_selector button").forEach(function (element) {
+            element.onclick = function (evt) {
+                now.setMonth(now.getMonth() + parseInt(evt.target.value));
+                refreshDate();
+                showMonth(now, calendar);
+            }
+        });
+
+        document.getElementById("month_selector").oninput = function (evt) {
+            now.setMonth(month.value);
+            now.setFullYear(year.value);
+            showMonth(now, calendar);
+        };
+
+        showMonth(now, calendar)
+    </script>
+
         <script src="js/vendor/modernizr-3.5.0.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
         <script>
