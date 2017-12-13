@@ -230,7 +230,7 @@ button:hover {
 
 #notes_list {
     height: 33%;
-    width: 100%;
+    width: 90%;
     display: block;
     border-top: inset 2px;
     border-bottom: outset 2px;
@@ -256,6 +256,7 @@ button:hover {
     cursor:pointer;
     color: #000060;
     text-decoration:underline;
+    border-bottom: 1px solid #0000000C;
 }
 
 #notes_list li div:hover {
