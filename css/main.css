@@ -97,20 +97,15 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-#left {
-    float: left;
-    width: 63%;
-    height: 99vh;
-    margin-left: 1%;
-    margin-bottom: 1vh;
+button {
+    font-weight: bold;
+    background-color: transparent;
+    border: 1px dashed darkgray;
 }
 
-#right {
-    float: right;
-    width: 33%;
-    margin-right: 1%;
-    height: 80vh;
-    border: 1px solid;
+button:hover {
+    border: 1px solid green;
+    border-radius: 5px;
 }
 
 #main:after {
@@ -119,13 +114,45 @@ textarea {
     clear: both;
 }
 
+
+#left {
+    float: left;
+    width: 63%;
+    height: 99vh;
+    margin-left: 1%;
+    margin-bottom: 1vh;
+}
+
 #month_selector {
     height: 20%;
     overflow: hidden;
 }
 
-#month_selector h1 {
+#month_selector #year{
+    font-weight: bold;
+    text-align: center;
+    width: 4em;
+    margin-left: 2px;
+    padding-bottom: 0;
+    padding-top: 0;
+    height: 3ch;
+}
+#month_selector #year::-webkit-inner-spin-button{
+   visibility: visible;
+}
 
+
+#month_selector #month{
+    font-weight: bold;
+    text-align: center;
+    margin-left: 2px;
+    height: 4ch;
+    background-color: transparent;
+}
+
+#month_selector button {
+    width: 4ch;
+    height: 4ch;
 }
 
 #calendar {
@@ -139,9 +166,6 @@ textarea {
     table-layout: fixed;
 }
 
-#calendar tr {
-
-}
 
 #calendar td {
     border: 1px dotted #999999;
@@ -183,8 +207,86 @@ textarea {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-::-webkit-scrollbar{
+#calendar td .content::-webkit-scrollbar{
     width: 0;
+}
+
+
+#right {
+    float: right;
+    width: 33%;
+    margin-right: 1%;
+    height: 90vh;
+    border-left: 1px ridge grey;
+    border-bottom: 1px ridge grey;
+    text-align: center;
+}
+
+#right h1 {
+    margin: 5px;
+    font-size: large;
+    font-style: italic;
+}
+
+#notes_list {
+    height: 33%;
+    width: 100%;
+    display: block;
+    border-top: inset 2px;
+    border-bottom: outset 2px;
+    background-color: #f9f9ff;
+    overflow-y: scroll;
+    list-style: none;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+#notes_list li {
+    width: 100%;
+    display: table-row;
+}
+
+#notes_list li div {
+    height: 22px;
+    float: left;
+    text-align: left;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    width: 25vw;
+    cursor:pointer;
+    color: #000060;
+    text-decoration:underline;
+}
+
+#notes_list li div:hover {
+    text-decoration:none;
+    text-shadow: 1px 1px 1px #555;
+}
+
+#notes_list li button {
+    height: 22px;
+    width: 22px;
+    color: #800000;
+    float: right;
+    text-align: center;
+}
+
+#note {
+    text-align: left;
+    margin-left: 1%;
+}
+
+#note #note_title {
+    width: 90%;
+}
+
+#note #note_description {
+    width: 90%;
+    height: 25vh;
+}
+
+#note #note_save {
+    alignment: center;
 }
 
 
