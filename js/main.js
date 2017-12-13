@@ -7,8 +7,10 @@ var calendar_notes = {};
  * @param {Element} calendar
  */
 function showMonth(date, calendar) {
-    get_notes(date, function (result) {
-        console.log(result);
+    let date_cp = new Date(date.getTime());
+    let date_it = new Date(date.getTime());
+
+    get_notes(date_it, function (result) {
         result.forEach(function (note) {
             note.id = parseInt(note.id);
             if(!calendar_notes[note.date])
@@ -17,12 +19,11 @@ function showMonth(date, calendar) {
         });
         calendar.innerHTML = '';
 
-        var date_it = new Date(date.getTime());
         date_it.setDate(0);
         date_it.setDate(date_it.getDate() - date_it.getDay() + 1);
 
         var displayed_months = {};
-        displayed_months[date.getMonth()] = true;
+        displayed_months[date_cp.getMonth()] = true;
         displayed_months[date_it.getMonth()] = true;
 
         var table = document.createElement("table");
@@ -38,7 +39,7 @@ function showMonth(date, calendar) {
         }
         calendar.appendChild(table);
 
-        setCalendarListeners(table, date.getMonth());
+        setCalendarListeners(table, date_cp.getMonth());
         document.querySelector("#note").style.visibility = "hidden";
         document.querySelector("#right").style.visibility = "hidden";
     });

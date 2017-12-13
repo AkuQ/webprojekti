@@ -46,10 +46,10 @@
         </div>
         <div id="calendar"></div>
     </div>
-    <hr width="1">
     <div id="right" style="visibility: hidden">
         <h1></h1>
         <ul id="notes_list"></ul>
+        <hr>
         <button id="note_new">New</button>
         <form id="note" style="visibility: hidden">
             <fieldset><legend>Title</legend>
@@ -81,9 +81,15 @@
             }
         });
 
-        document.getElementById("month_selector").oninput = function (evt) {
-            now.setMonth(month.value);
+        year.oninput = function (evt) {
+            console.log("Y");
             now.setFullYear(year.value);
+            showMonth(now, calendar);
+        };
+
+        month.oninput = function (evt) {
+            console.log("M");
+            now.setMonth(month.value);
             showMonth(now, calendar);
         };
 
