@@ -82,13 +82,11 @@
         });
 
         year.oninput = function (evt) {
-            console.log("Y");
             now.setFullYear(year.value);
             showMonth(now, calendar);
         };
 
         month.oninput = function (evt) {
-            console.log("M");
             now.setMonth(month.value);
             showMonth(now, calendar);
         };
