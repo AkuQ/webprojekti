@@ -165,7 +165,6 @@ function showNote(note) {
     document.querySelector("#note").style.visibility = "visible";
 }
 
-//temp
 function saveNote(note) {
     put_notes(note, function (id) {
         if(!note.id) {
