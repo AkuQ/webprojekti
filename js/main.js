@@ -125,7 +125,7 @@ function showNotesList(iso_date) {
             note_item.appendChild(title);
 
             var delete_button = document.createElement("button");
-            delete_button.innerHTML = "Delete";
+            delete_button.innerHTML = "x";
             delete_button.onclick = function() {
                 delete_notes(note, function (result) {
                     if(parseInt(result) === 1) {
